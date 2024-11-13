@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.symmetric(horizontal: 20.0, ),
       child: ListView(
         children: [
-          AppTile(text: 'Catalog'),
+          AppTitle(text: 'Catalog'),
           SpaceHeight(18.0),
           CustomTextField(controller: searchController, hintText: 'Search..', prefixIcon: Assets.icons.search.svg(),),
           SpaceHeight(24.0),

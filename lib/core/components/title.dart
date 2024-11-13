@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../core.dart';
 
-class AppTile extends StatelessWidget {
+class AppTitle extends StatelessWidget {
   final String text;
-  const AppTile({
+  const AppTitle({
     super.key,
     required this.text,
   });

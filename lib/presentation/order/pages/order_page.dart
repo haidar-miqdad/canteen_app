@@ -1,5 +1,3 @@
-
-
 import 'package:canteen_app/presentation/home/models/order_item.dart';
 import 'package:flutter/material.dart';
 
@@ -44,8 +42,12 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 10 ),
+            child: AppTitle(text: 'Order List',),
+          ),
           orders.isEmpty
               ? const Center(
             child: Text('No Data'),
@@ -62,6 +64,7 @@ class _OrderPageState extends State<OrderPage> {
               onDeleteTap: () {},
             ),
           ),
+          Spacer(),
           Padding(
             padding: const EdgeInsets.only( left: 16.0, right: 16.0, bottom: 16.0),
             child: Column(
@@ -72,7 +75,7 @@ class _OrderPageState extends State<OrderPage> {
                   builder: (context, value, _) => Row(
                     children: [
                       MenuButton(
-                        iconPath: Assets.icons.cash.svg(),
+                        iconPath: Assets.icons.cash.svg(colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn)),
                         label: 'CASH',
                         isActive: value == 1,
                         onPressed: () {
@@ -81,7 +84,7 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                       const SpaceWidth(16.0),
                       MenuButton(
-                        iconPath: Assets.icons.qrCode.svg(),
+                        iconPath: Assets.icons.qrCode.svg(colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn)),
                         label: 'QR',
                         isActive: value == 2,
                         onPressed: () {
@@ -90,7 +93,7 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                       const SpaceWidth(16.0),
                       MenuButton(
-                        iconPath: Assets.icons.debit.svg(),
+                        iconPath: Assets.icons.debit.svg(colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn)),
                         label: 'TRANSFER',
                         isActive: value == 3,
                         onPressed: () {
@@ -107,9 +110,14 @@ class _OrderPageState extends State<OrderPage> {
                     if (indexValue.value == 0) {
                       // Show message to select a payment method
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text('Please select a payment method.'),
                           backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.only(bottom: 190.0, left: 16.0, right: 16.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       );
                     } else if (indexValue.value == 1) {
