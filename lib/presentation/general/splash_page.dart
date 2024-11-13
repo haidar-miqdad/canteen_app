@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/core.dart';
 import '../auth/pages/login_page.dart';
@@ -28,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Assets.lottie.apple.lottie(width: 200, height: 200),
+            child: Assets.images.f1.image()
           ),
         ],
       ),
