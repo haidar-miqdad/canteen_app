@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Assets.images.f1.image()
+            child: Assets.lottie.apple.lottie(width: 200, height: 200),
           ),
         ],
       ),

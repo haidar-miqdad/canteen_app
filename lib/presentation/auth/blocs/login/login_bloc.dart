@@ -16,8 +16,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final response = await authRemoteDatasource.login(event.email, event.password);
 
       response.fold(
-        (l) => emit(LoginFailure(message: l)),
-        (r) => emit(LoginSuccess(authResponseModel: r))
+        (error) => emit(LoginFailure(message: error)),
+        (success) => emit(LoginSuccess(authResponseModel: success))
       );
     });
   }

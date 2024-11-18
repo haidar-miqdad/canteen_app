@@ -1,14 +1,10 @@
-import 'dart:convert';
-
-import 'package:canteen_app/main.dart';
+import 'package:canteen_app/data/dataresource/auth_local_datasource.dart';
 import 'package:canteen_app/presentation/auth/blocs/login/login_bloc.dart';
 import 'package:canteen_app/presentation/general/dashboard_page.dart';
-import 'package:canteen_app/presentation/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/core.dart';
-// import '../../home/pages/dashboard_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -82,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
           const SpaceHeight(24.0),
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
+
               if (state is LoginSuccess) {
+                AuthLocalDatasource().saveAuthData(state.authResponseModel);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -94,10 +92,10 @@ class _LoginPageState extends State<LoginPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.message),
+                    backgroundColor: Colors.red,
                   ),
                 );
               }
-
             },
             child: BlocBuilder<LoginBloc, LoginState>(
               builder: (context, state) {

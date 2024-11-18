@@ -81,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                   isActive: index == 3,
                   onPressed: () => onCategoryTap(3),
                 ),
-
               ],
             ),
           ),
