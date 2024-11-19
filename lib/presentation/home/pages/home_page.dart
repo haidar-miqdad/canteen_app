@@ -2,6 +2,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen_app/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../auth/pages/login_page.dart';
+import '../blocs/logout/logout_bloc.dart';
 
 part '../widgets/product_card.dart';
 
@@ -13,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final searchController = TextEditingController();
 
   final indexValue = ValueNotifier(0);
@@ -39,16 +42,58 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.0,
+      ),
       child: ListView(
         children: [
-          AppTitle(text: 'Catalog'),
+          Row(
+            children: [
+              AppTitle(text: 'Catalog'),
+              Spacer(),
+              BlocConsumer<LogoutBloc, LogoutState>(
+                listener: (context, state) {
+                  if (state is LogoutSuccess) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  }
+
+                  if (state is LogoutFailure) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is LogoutLoading) {
+                    return const CircularProgressIndicator();
+                  }
+                  return IconButton(
+                    onPressed: () {
+                      context.read<LogoutBloc>().add(LogoutButtonPressed());
+                    },
+                    icon: Icon(Icons.logout),
+                  );
+                },
+              )
+            ],
+          ),
           SpaceHeight(18.0),
-          CustomTextField(controller: searchController, hintText: 'Search..', prefixIcon: Assets.icons.search.svg(),),
+          CustomTextField(
+            controller: searchController,
+            hintText: 'Search..',
+            prefixIcon: Assets.icons.search.svg(),
+          ),
           SpaceHeight(24.0),
           ValueListenableBuilder(
             valueListenable: indexValue,
@@ -102,4 +147,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

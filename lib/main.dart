@@ -1,7 +1,7 @@
 import 'package:canteen_app/data/dataresource/auth_remote_datasource.dart';
-import 'package:canteen_app/presentation/auth/pages/login_page.dart';
 import 'package:canteen_app/presentation/general/dashboard_page.dart';
 import 'package:canteen_app/presentation/general/splash_page.dart';
+import 'package:canteen_app/presentation/home/blocs/logout/logout_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,8 +18,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginBloc(AuthRemoteDatasource()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginBloc(AuthRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => LogoutBloc(AuthRemoteDatasource()),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -35,7 +42,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data == true) {
               return const DashboardPage();
-            } else{
+            } else {
               return const SplashPage();
             }
           },
