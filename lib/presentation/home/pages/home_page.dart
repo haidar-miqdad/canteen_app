@@ -4,8 +4,10 @@ import 'package:canteen_app/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/model/response/product_response_model.dart';
 import '../../auth/pages/login_page.dart';
 import '../blocs/logout/logout_bloc.dart';
+import '../blocs/product/product_bloc.dart';
 
 part '../widgets/product_card.dart';
 
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
         category = 'snack';
         break;
     }
+    context.read<ProductBloc>().add(ProductCategoryFetched(category: category));
   }
 
   @override
@@ -130,17 +133,37 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SpaceHeight(24.0),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 25.0,
-              crossAxisSpacing: 25.0,
-              childAspectRatio: 0.7,
-            ),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) => ProductCard(),
+          BlocBuilder<ProductBloc, ProductState>(
+            builder: (context, state) {
+              if (state is ProductLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if (state is ProductFailure) {
+                return Text(state.message);
+              }
+
+              if (state is ProductSuccess) {
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 25.0,
+                    crossAxisSpacing: 25.0,
+                    childAspectRatio: 0.7,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.products.length,
+                  itemBuilder: (context, index) => ProductCard(
+                    product: state.products[index],
+                    onPressed: () {},
+                  ),
+                );
+              }
+              return SizedBox();
+            },
           )
         ],
       ),

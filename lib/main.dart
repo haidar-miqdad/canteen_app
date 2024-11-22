@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'data/dataresource/auth_local_datasource.dart';
+import 'data/dataresource/product_remote_datasource.dart';
 import 'presentation/auth/blocs/login/login_bloc.dart';
+import 'presentation/home/blocs/product/product_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LogoutBloc(AuthRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => ProductBloc(ProductRemoteDatasource())..add(ProductFetched()),
         ),
       ],
       child: MaterialApp(
